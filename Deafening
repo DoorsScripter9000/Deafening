@@ -1,0 +1,102 @@
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Loaded Forgotten Doors mode",true)
+wait(3)
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Made by Rush(me)",true)
+wait(3)
+     require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).caption("Thanks for the help TJabiss, Box, and Tinkgy",true)
+     wait(0.1)
+local syncConnection; syncConnection = game:GetService("ReplicatedStorage").GameData.LatestRoom:GetPropertyChangedSignal("Value"):Wait() 
+-- Entity 1 
+     coroutine.wrap(function()
+     while true do 
+     wait(math.random(20,255)) 
+     game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait() 
+ local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors%20Entity%20Spawner/Source.lua"))()
+-- Create entity
+local entityTable = Spawner.createEntity({
+    CustomName = "Deafening", -- Custom name of your entity
+    Model = "Rbxassetid://12812277096", -- Can be GitHub file or rbxassetid
+    Speed = 150, -- Percentage, 100 = default Rush speed
+    DelayTime = 2, -- Time before starting cycles (seconds)
+    HeightOffset = 0,
+    CanKill = true,
+    KillRange = 50,
+    BackwardsMovement = false,
+    BreakLights = true,
+    FlickerLights = {
+        true, -- Enabled/Disabled
+        1, -- Time (seconds)
+    },
+    Cycles = {
+        Min = 1,
+        Max = 4,
+        WaitTime = 2,
+    },
+    CamShake = {
+        true, -- Enabled/Disabled
+        {3.5, 20, 0.1, 1}, -- Shake values (don't change if you don't know)
+        100, -- Shake start distance (from Entity to you)
+    },
+    Jumpscare = {
+        true, -- Enabled/Disabled
+        {
+            Image1 = "rbxassetid://5577595111", -- Image1 url
+            Image2 = "rbxassetid://11710144244", -- Image2 url
+            Shake = true,
+            Sound1 = {
+                4903742660, -- SoundId
+                { Volume = 0.5 }, -- Sound properties
+            },
+            Sound2 = {
+                3537873683, -- SoundId
+                { Volume = 0.5 }, -- Sound properties
+            },
+            Flashing = {
+                true, -- Enabled/Disabled
+                Color3.fromRGB(255, 255, 255), -- Color
+            },
+            Tease = {
+                true, -- Enabled/Disabled
+                Min = 1,
+                Max = 3,
+            },
+        },
+    },
+    CustomDialog = {"You died to Corrupt.", "It will flicker the lights.", "Use what you learned from Ambush!"}, -- Custom death message
+})
+
+
+-----  Debug -=- Advanced  -----
+entityTable.Debug.OnEntitySpawned = function()
+    print("Entity has spawned:", entityTable)
+end
+
+entityTable.Debug.OnEntityDespawned = function()
+    print("Entity has despawned:", entityTable)
+end
+
+entityTable.Debug.OnEntityStartMoving = function()
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
+end
+
+entityTable.Debug.OnEntityFinishedRebound = function()
+    print("Entity has finished rebound:", entityTable)
+end
+
+entityTable.Debug.OnEntityEnteredRoom = function(room)
+    print("Entity:", entityTable, "has entered room:", room)
+end
+
+entityTable.Debug.OnLookAtEntity = function()
+    print("Player has looked at entity:", entityTable)
+end
+
+entityTable.Debug.OnDeath = function()
+    warn("Player has died.")
+end
+------------------------------------
+
+
+-- Run the created entity
+Spawner.runEntity(entityTable)
+end
+end)()
